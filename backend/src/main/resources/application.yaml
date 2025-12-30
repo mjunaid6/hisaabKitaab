@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: backend
+
+jwt:
+  secret: "9uX1Q7rVn3sYB4yE0Hq6mA2cF5xZbJdT8WcRkPpL0Qo"
+  expiration: 3600000
