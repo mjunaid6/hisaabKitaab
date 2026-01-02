@@ -1,4 +1,4 @@
-package com.hisaabkitaab.backend.services;
+package com.hisaabkitaab.backend.services.tokenServices;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,15 +12,15 @@ import com.hisaabkitaab.backend.entities.Role;
 import com.hisaabkitaab.backend.entities.User;
 
 
-public class UserDetailServices extends User implements UserDetails {
+public class UserDetailService extends User implements UserDetails {
 
-    private String username;
+    private String email;
     private String password;
     
     Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailServices(User user) {
-        this.username = user.getUsername();
+    public UserDetailService(User user) {
+        this.email = user.getEmail();
         this.password = user.getPassword();
 
         List<GrantedAuthority> auths = new ArrayList<>();
@@ -39,27 +39,18 @@ public class UserDetailServices extends User implements UserDetails {
     public String getPassword(){ return password; }
 
     @Override
-    public String getUsername(){ return username; }
+    public String getUsername(){ return email; }
 
     @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+    public boolean isAccountNonExpired() { return true; }
 
     @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+    public boolean isAccountNonLocked() { return true; }
 
     @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+    public boolean isCredentialsNonExpired() { return true; }
 
     @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
+    public boolean isEnabled() { return true; }
 
 }
