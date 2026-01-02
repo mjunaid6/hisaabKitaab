@@ -41,7 +41,7 @@ public class JWTService {
         return (email.equals(userDetailServices.getEmail()) && !isTokenExpired(token));
     }
 
-    private String extractEmail(String token) {
+    public String extractEmail(String token) {
         return extractClaims(token, Claims:: getSubject);
     }
 
