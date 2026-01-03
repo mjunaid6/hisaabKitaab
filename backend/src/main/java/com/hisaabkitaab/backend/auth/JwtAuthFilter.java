@@ -39,7 +39,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         final String authHeader = request.getHeader("Authorization");
 
-        // No JWT present
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -48,7 +47,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String jwt = authHeader.substring(7);
         final String email = jwtService.extractEmail(jwt);
 
-        // Authenticate only if not already authenticated
         if (email != null &&
             SecurityContextHolder.getContext().getAuthentication() == null) {
 

@@ -2,11 +2,11 @@ package com.hisaabkitaab.backend.services.tokenServices;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.Map;
 import java.util.function.Function;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
@@ -25,10 +25,9 @@ public class JWTService {
 
     private static final int expirationTime = 1000 * 60;
 
-    public String createToken(Map<String, Object> claims, String email) {
+    public String createToken(String email) {
         return Jwts
                 .builder()
-                .setClaims(claims)
                 .setSubject(email)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
@@ -36,9 +35,9 @@ public class JWTService {
                 .compact();
     }
 
-    public boolean validateToken(String token, UserDetailService userDetailServices) {
+    public boolean validateToken(String token, UserDetails userDetailServices) {
         final String email = extractEmail(token);
-        return (email.equals(userDetailServices.getEmail()) && !isTokenExpired(token));
+        return (email.equals(userDetailServices.getUsername()) && !isTokenExpired(token));
     }
 
     public String extractEmail(String token) {
