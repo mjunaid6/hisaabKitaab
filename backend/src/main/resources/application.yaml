@@ -1,7 +1,18 @@
 spring:
   application:
     name: backend
+  datasource:
+    url: jdbc:mysql://localhost:3306/hisaabkitaab?useSSL=false&serverTimezone=UTC
+    username: root
+    password: Mjunaid@00
+    driver-class-name: com.mysql.cj.jdbc.driver
 
-jwt:
-  secret: "9uX1Q7rVn3sYB4yE0Hq6mA2cF5xZbJdT8WcRkPpL0Qo"
-  expiration: 3600000
+  jpa:
+    hibernate: 
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate: 
+        format-sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  

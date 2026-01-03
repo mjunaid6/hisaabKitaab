@@ -33,12 +33,12 @@ public class RefreshTokenService {
         return refreshTokenRepository.save(refreshToken);
     }
 
-    public RefreshToken verifyExpiration(RefreshToken refreshToken) {
+    public boolean verifyExpiration(RefreshToken refreshToken) {
         if(refreshToken.getExpiry().compareTo(Instant.now()) < 0) {
             refreshTokenRepository.delete(refreshToken);
-            throw new RuntimeException(refreshToken.getToken() + " refresh token is expired");
+            return false;
         }
-        return refreshToken;
+        return true;
     }
 
     public Optional<RefreshToken> findByToken(String refreshToken) {
