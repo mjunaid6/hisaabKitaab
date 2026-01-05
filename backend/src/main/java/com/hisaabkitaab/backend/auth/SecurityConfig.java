@@ -40,9 +40,9 @@ public class SecurityConfig {
                         sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/login",
-                                "/api/signup",
-                                "/api/refreshToken"
+                                "/auth/login",
+                                "/auth/signup",
+                                "/auth/refreshToken"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

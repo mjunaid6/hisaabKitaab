@@ -45,13 +45,15 @@ public class TokenController {
     }
 
     @PostMapping("/refreshToken")
-    public JwtAuthResponseDto refreshToken(@RequestBody RefreshTokenRequestDto refreshTokenRequestDto) throws RuntimeException {
+    public ResponseEntity<JwtAuthResponseDto> refreshToken(@RequestBody RefreshTokenRequestDto refreshTokenRequestDto) throws RuntimeException {
         Optional<RefreshToken> refreshToken = refreshTokenService.findByToken(refreshTokenRequestDto.getRefreshToken());
         if(refreshToken == null || refreshTokenService.verifyExpiration(refreshToken.get())) throw new RuntimeException("Refresh Token not found");
-        return JwtAuthResponseDto.builder()
+        return ResponseEntity
+                            .status(HttpStatus.OK)
+                            .body(JwtAuthResponseDto.builder()
                                     .accessToken(jwtService.createToken(refreshToken.get().getUser().getEmail()))
                                     .refreshToken(refreshToken.get().getToken())
-                                    .build();
+                                    .build());
 
     }
 }
