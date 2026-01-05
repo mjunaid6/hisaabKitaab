@@ -1,4 +1,4 @@
-package com.hisaabkitaab.backend.services.tokenServices;
+package com.hisaabkitaab.backend.auth.service;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -25,6 +25,7 @@ public class RefreshTokenService {
 
     public RefreshToken createRefreshToken(String email) {
         User user = userRepository.findByEmail(email);
+        
         RefreshToken refreshToken = RefreshToken.builder()
                                                 .user(user)
                                                 .token(UUID.randomUUID().toString())

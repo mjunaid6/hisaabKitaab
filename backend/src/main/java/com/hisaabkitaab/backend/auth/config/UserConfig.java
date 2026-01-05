@@ -1,4 +1,4 @@
-package com.hisaabkitaab.backend.auth;
+package com.hisaabkitaab.backend.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

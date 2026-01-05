@@ -1,4 +1,4 @@
-package com.hisaabkitaab.backend.services.tokenServices;
+package com.hisaabkitaab.backend.auth.service;
 
 import java.util.HashSet;
 import java.util.UUID;
@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hisaabkitaab.backend.dto.UserDto;
+import com.hisaabkitaab.backend.entities.RefreshToken;
 import com.hisaabkitaab.backend.entities.User;
 import com.hisaabkitaab.backend.repositories.UserRepository;
 import com.hisaabkitaab.backend.utils.ValidationUtil;
@@ -24,26 +25,42 @@ public class UserDetailServiceImpl implements UserDetailsService{
 
     private PasswordEncoder passwordEncoder;
 
+    private RefreshTokenService refreshTokenService;
+
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
         if(user == null) throw new UsernameNotFoundException("User not found!");
         return new UserDetailService(user);
     }
 
-    public boolean signup(UserDto userDto) {
-        if(!ValidationUtil.isUserValid(userDto)) return false;
+    public String signup(UserDto userDto) {
+        if(!ValidationUtil.isUserValid(userDto)) return null;
 
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        if(checkIfuserAlreadyExists(userDto) != null) return false;
+        if(checkIfuserAlreadyExists(userDto) != null) return null;
 
-        String userId = UUID.randomUUID().toString();
-        userRepository.save(new User(userId, userDto.getUsername(), userDto.getEmail(), userDto.getPassword(), new HashSet<>()));
-        return true;
+        User user = new User(UUID.randomUUID().toString(), 
+                             userDto.getUsername(), 
+                             userDto.getEmail(), 
+                             passwordEncoder.encode(userDto.getPassword()), 
+                             new HashSet<>(), 
+                             null);
+                            
+        userRepository.save(user);
+
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDto.getEmail());
+        user.setRefreshToken(refreshToken);
+        userRepository.save(user);
+
+        return refreshToken.getToken();
     }
 
 
     public User checkIfuserAlreadyExists(UserDto userDto) {
         return userRepository.findByEmail(userDto.getEmail());
+    }
+
+    public String getRefreshToken(String email) {
+        return userRepository.findByEmail(email).getRefreshToken().getToken();
     }
 
 }

@@ -15,8 +15,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.hisaabkitaab.backend.services.tokenServices.JWTService;
-import com.hisaabkitaab.backend.services.tokenServices.UserDetailServiceImpl;
+import com.hisaabkitaab.backend.auth.service.JWTService;
+import com.hisaabkitaab.backend.auth.service.UserDetailServiceImpl;
 
 @Component
 @AllArgsConstructor

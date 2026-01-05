@@ -1,4 +1,4 @@
-package com.hisaabkitaab.backend.services.tokenServices;
+package com.hisaabkitaab.backend.auth.service;
 
 import java.security.Key;
 import java.util.Date;
