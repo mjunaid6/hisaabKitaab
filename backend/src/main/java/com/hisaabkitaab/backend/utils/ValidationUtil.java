@@ -15,11 +15,11 @@ public class ValidationUtil {
 
     public static boolean isPasswordValid(String password) {
         if(password == null || password.length() < 6) return false;
-        return !password.contains("@") && 
-            !password.contains("#") &&
-            !password.contains("$") && 
-            !password.contains("&") &&
-            !password.contains("!");
+        return password.contains("@") || 
+            password.contains("#") ||
+            password.contains("$") || 
+            password.contains("&") ||
+            password.contains("!");
     }
 
     public static boolean isUserValid(UserDto userDto) {

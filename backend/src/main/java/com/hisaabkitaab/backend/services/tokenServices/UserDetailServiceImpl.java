@@ -14,17 +14,15 @@ import com.hisaabkitaab.backend.entities.User;
 import com.hisaabkitaab.backend.repositories.UserRepository;
 import com.hisaabkitaab.backend.utils.ValidationUtil;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class UserDetailServiceImpl implements UserDetailsService{
 
     private UserRepository userRepository;
 
     private PasswordEncoder passwordEncoder;
-
-    public UserDetailServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder){
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
