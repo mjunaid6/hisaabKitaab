@@ -7,12 +7,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.hisaabkitaab.backend.dto.UserDto;
 import com.hisaabkitaab.backend.entities.User;
 import com.hisaabkitaab.backend.repositories.UserRepository;
 import com.hisaabkitaab.backend.utils.ValidationUtil;
 
+@Service
 public class UserDetailServiceImpl implements UserDetailsService{
 
     private UserRepository userRepository;
