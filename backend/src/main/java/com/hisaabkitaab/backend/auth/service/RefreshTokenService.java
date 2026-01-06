@@ -12,6 +12,8 @@ import com.hisaabkitaab.backend.entities.User;
 import com.hisaabkitaab.backend.repositories.RefreshTokenRepository;
 import com.hisaabkitaab.backend.repositories.UserRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class RefreshTokenService {
     
@@ -23,14 +25,19 @@ public class RefreshTokenService {
 
     private final int expirationTime = 1000 * 60 * 60 * 24 * 7;
 
+    @Transactional
     public RefreshToken createRefreshToken(String email) {
         User user = userRepository.findByEmail(email);
+
+        refreshTokenRepository.findByUser(user)
+                .ifPresent(refreshTokenRepository::delete);
         
         RefreshToken refreshToken = RefreshToken.builder()
                                                 .user(user)
                                                 .token(UUID.randomUUID().toString())
                                                 .expiry(Instant.now().plusMillis(expirationTime))
                                                 .build();
+                                                
         return refreshTokenRepository.save(refreshToken);
     }
 
