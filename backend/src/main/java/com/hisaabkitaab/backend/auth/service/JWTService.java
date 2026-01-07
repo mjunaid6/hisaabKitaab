@@ -20,7 +20,6 @@ import io.jsonwebtoken.security.Keys;
 @ConfigurationProperties(prefix = "jwt")
 public class JWTService {
     
-    // @Value("${jwt.secret}")
     public static final String secretKey = "9uX1Q7rVn3sYB4yE0Hq6mA2cF5xZbJdT8WcRkPpL0Qo";
 
     private static final int expirationTime = 1000 * 60;
