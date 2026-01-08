@@ -27,17 +27,17 @@ public class RefreshTokenService {
 
     @Transactional
     public RefreshToken createRefreshToken(String email) {
+
         User user = userRepository.findByEmail(email);
 
-        refreshTokenRepository.findByUser(user)
-                .ifPresent(refreshTokenRepository::delete);
-        
+        refreshTokenRepository.deleteByUser(user); 
+
         RefreshToken refreshToken = RefreshToken.builder()
-                                                .user(user)
-                                                .token(UUID.randomUUID().toString())
-                                                .expiry(Instant.now().plusMillis(expirationTime))
-                                                .build();
-                                                
+                .user(user)
+                .token(UUID.randomUUID().toString())
+                .expiry(Instant.now().plusMillis(expirationTime))
+                .build();
+
         return refreshTokenRepository.save(refreshToken);
     }
 

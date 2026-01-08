@@ -48,8 +48,6 @@ public class UserDetailServiceImpl implements UserDetailsService{
         userRepository.save(user);
 
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDto.getEmail());
-        user.setRefreshToken(refreshToken);
-        userRepository.save(user);
 
         return refreshToken.getToken();
     }
