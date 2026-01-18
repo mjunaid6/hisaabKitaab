@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.hisaabkitaab.backend.dto.UserDto;
 import com.hisaabkitaab.backend.entities.RefreshToken;
 import com.hisaabkitaab.backend.entities.User;
+import com.hisaabkitaab.backend.eventProducer.UserProducer;
 import com.hisaabkitaab.backend.repositories.UserRepository;
 import com.hisaabkitaab.backend.utils.ValidationUtil;
 
@@ -26,6 +27,8 @@ public class UserDetailServiceImpl implements UserDetailsService{
     private PasswordEncoder passwordEncoder;
 
     private RefreshTokenService refreshTokenService;
+
+    private UserProducer userProducer;
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
@@ -48,6 +51,8 @@ public class UserDetailServiceImpl implements UserDetailsService{
         userRepository.save(user);
 
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDto.getEmail());
+
+        userProducer.sendMessageToKafkaTopic(userDto);
 
         return refreshToken.getToken();
     }
