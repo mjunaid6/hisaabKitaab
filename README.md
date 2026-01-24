@@ -1,7 +1,7 @@
 # 💰 HisaabKitaab Backend
 
 <div align="center">
-**A robust Java-based backend powering an intuitive expense tracker application.**
+  A robust Java-based backend powering an intuitive expense tracker application.
   
 </div>
 
